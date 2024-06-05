@@ -1,3 +1,5 @@
+import "./global.css";
+
 export const metadata = {
 	title: "Lenny's todo | home",
 	description: "Developed by Lenny Thobejane",
