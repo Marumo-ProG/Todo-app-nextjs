@@ -2,8 +2,10 @@
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
 
 import Image from "next/image";
+import Link from "next/link";
 
 // images
 import BackgroundImage from "../../public/background1.jpg";
@@ -33,12 +35,23 @@ const LandingPage = () => {
 				Welcome to Lenny's Todo Application
 			</Typography>
 			<Stack spacing={2} direction="row" justifyContent="center">
-				<Button variant="contained" color="primary">
-					Show my Todo's
-				</Button>
-				<Button variant="outlined" color="primary">
-					See Community Todo's
-				</Button>
+				<Link href="/login" passHref>
+					<Button variant="contained" color="primary" component="a">
+						See your Todo's
+					</Button>
+				</Link>
+
+				<Tooltip title="See what your peers are doing today">
+					<Link href="/community" passHref>
+						<Button
+							variant="outlined"
+							color="primary"
+							component="a"
+						>
+							Community's Todo's
+						</Button>
+					</Link>
+				</Tooltip>
 			</Stack>
 		</Stack>
 	);

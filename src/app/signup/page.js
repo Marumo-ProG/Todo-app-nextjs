@@ -5,7 +5,6 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import CardMedia from "@mui/material/CardMedia";
 import Divider from "@mui/material/Divider";
 
 import Image from "next/image";
@@ -14,7 +13,7 @@ import Link from "next/link";
 // images
 import Background from "../../../public/background1.jpg";
 
-const LoginPage = () => {
+const SignupPage = () => {
 	return (
 		<Stack height={"100vh"} justifyContent={"center"} alignItems={"center"}>
 			<Stack sx={{ position: "absolute", top: 0, left: 0, padding: 3 }}>
@@ -73,7 +72,7 @@ const LoginPage = () => {
 					justifyContent={"center"}
 					spacing={3}
 				>
-					<Typography variant={"h4"}>Login</Typography>
+					<Typography variant={"h4"}>Signup</Typography>
 					<Divider variant="middle" />
 
 					<TextField
@@ -89,23 +88,30 @@ const LoginPage = () => {
 						size="small"
 						type="password"
 					/>
+					<TextField
+						label="Confirm Password"
+						variant="outlined"
+						color="primary"
+						size="small"
+						type="password"
+					/>
 					<Button variant="contained" color="primary">
-						Login
+						Signup
 					</Button>
 
 					<Stack justifySelf={"flex-end"} spacing={1}>
 						<Typography variant={"body2"}>
-							Don't have an account?
+							Already have an account?
 						</Typography>
 						<Button variant={"text"} color={"primary"} size="small">
 							<Link
-								href={"/signup"}
+								href="/login"
 								style={{
 									textDecoration: "none",
 									color: "inherit",
 								}}
 							>
-								Signup
+								Login
 							</Link>
 						</Button>
 					</Stack>
@@ -115,4 +121,4 @@ const LoginPage = () => {
 	);
 };
 
-export default LoginPage;
+export default SignupPage;
