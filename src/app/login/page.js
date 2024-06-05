@@ -5,6 +5,8 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import CardMedia from "@mui/material/CardMedia";
+import Divider from "@mui/material/Divider";
 
 import Image from "next/image";
 
@@ -19,22 +21,73 @@ const LoginPage = () => {
 				sx={{
 					width: { xs: "100%", sm: "60%" },
 					height: "60%",
-					backgroundColor: "red",
 				}}
 			>
-				<Stack width={"100%"} height={"100%"}>
+				<Stack
+					width={"100%"}
+					height={"100%"}
+					justifyContent={"center"}
+					alignItems={"center"}
+					position={"relative"}
+				>
 					<Image
 						src={Background}
-						objectFit={"cover"}
 						quality={100}
-						style={{ height: "100%", width: "100%" }}
+						style={{
+							height: "100%",
+							width: "100%",
+							objectFit: "cover",
+							opacity: 0.4,
+							position: "absolute",
+						}}
 					/>
+					<Typography
+						variant="h3"
+						sx={{
+							textAlign: "center",
+							zIndex: 1,
+							fontFamily: "cursive",
+						}}
+					>
+						Lenny's todo List Application
+					</Typography>
 				</Stack>
 				<Stack
 					width={"100%"}
 					height={"100%"}
-					sx={{ backgroundColor: "green" }}
-				></Stack>
+					alignItems={"center"}
+					justifyContent={"center"}
+					spacing={3}
+				>
+					<Typography variant={"h4"}>Login</Typography>
+					<Divider variant="middle" />
+
+					<TextField
+						label="Email"
+						variant="outlined"
+						color="primary"
+						size="small"
+					/>
+					<TextField
+						label="Password"
+						variant="outlined"
+						color="primary"
+						size="small"
+						type="password"
+					/>
+					<Button variant="contained" color="primary">
+						Login
+					</Button>
+
+					<Stack justifySelf={"flex-end"} spacing={1}>
+						<Typography variant={"body2"}>
+							Don't have an account?
+						</Typography>
+						<Button variant={"text"} color={"primary"} size="small">
+							Sign Up
+						</Button>
+					</Stack>
+				</Stack>
 			</Stack>
 		</Stack>
 	);
