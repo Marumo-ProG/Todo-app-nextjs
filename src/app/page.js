@@ -36,18 +36,14 @@ const LandingPage = () => {
 			</Typography>
 			<Stack spacing={2} direction="row" justifyContent="center">
 				<Link href="/login" passHref>
-					<Button variant="contained" color="primary" component="a">
+					<Button variant="contained" color="primary">
 						See your Todo's
 					</Button>
 				</Link>
 
 				<Tooltip title="See what your peers are doing today">
 					<Link href="/community" passHref>
-						<Button
-							variant="outlined"
-							color="primary"
-							component="a"
-						>
+						<Button variant="outlined" color="primary">
 							Community's Todo's
 						</Button>
 					</Link>
