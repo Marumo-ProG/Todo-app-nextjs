@@ -6,12 +6,9 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Divider from "@mui/material/Divider";
+import CardMedia from "@mui/material/CardMedia";
 
-import Image from "next/image";
 import Link from "next/link";
-
-// images
-import Background from "../../../public/background1.jpg";
 
 const SignupPage = () => {
 	return (
@@ -50,13 +47,11 @@ const SignupPage = () => {
 							width: "100%",
 						}}
 					>
-						<Image
-							src={"https://source.unsplash.com/random"}
+						<CardMedia
+							component="img"
+							height="100%"
+							image="https://source.unsplash.com/random"
 							alt="Random Image"
-							layout="fill"
-							objectFit="cover"
-							quality={100}
-							style={{ opacity: 0.4 }}
 						/>
 					</div>
 					<Typography
