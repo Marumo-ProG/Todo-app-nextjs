@@ -20,17 +20,18 @@ const CommuninityPage = () => {
 	const [todos, setTodos] = useState([]);
 
 	useEffect(() => {
-		const fetchTodos = async () => {
-			try {
-				const res = await axios.get("/api/todos");
-				setTodos(res.data);
-			} catch (err) {
-				alert("Error fetching todos");
-			}
-		};
-
 		fetchTodos();
 	}, []);
+
+	const fetchTodos = async () => {
+		try {
+			const res = await axios.get("/api/todos");
+			setTodos(res.data);
+		} catch (err) {
+			alert("Error fetching todos");
+			console.log(err);
+		}
+	};
 	return (
 		<>
 			<Stack height={"100vh"} spacing={3}>
@@ -109,6 +110,7 @@ const CommuninityPage = () => {
 				<AddTodoModal
 					open={openAddTodoModal}
 					handleClose={() => setOpenAddTodoModal(false)}
+					fetchTodos={fetchTodos}
 				/>
 			)}
 		</>

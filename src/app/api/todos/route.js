@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { databases } from "../../../lib/appwrite";
+import { ID } from "appwrite";
 
 const collectionID = "66618a1e0037b338de23";
 const databaseID = "6661897d0008aaea6154";
@@ -22,11 +23,14 @@ export async function POST(req) {
 	try {
 		const newTodo = await req.json();
 		const createdTodo = await databases.createDocument(
-			collectionId,
+			databaseID,
+			collectionID,
+			ID.unique(),
 			newTodo
 		);
 		return NextResponse.json(createdTodo, { status: 201 });
 	} catch (error) {
-		return NextResponse.error(error.message);
+		console.error("Error creating todo:", error);
+		return NextResponse.error(error.message, { status: 500 });
 	}
 }
