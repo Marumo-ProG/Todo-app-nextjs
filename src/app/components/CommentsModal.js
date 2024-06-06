@@ -1,3 +1,8 @@
+"use client";
+import { useState, useEffect } from "react";
+
+import axios from "axios";
+
 // MUI
 import Dialog from "@mui/material/Dialog";
 import Button from "@mui/material/Button";
@@ -10,7 +15,35 @@ import TextField from "@mui/material/TextField";
 // Icons
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
-const CommentsModal = ({ open, handleClose, comments }) => {
+const CommentsModal = ({ open, handleClose, comments, todo }) => {
+	const [comment, setComment] = useState("");
+	const [name, setName] = useState("");
+	const [comments, setComments] = useState(comments);
+
+	useEffect(() => {
+		fetchComments();
+	}, [comments]);
+
+	const fetchComments = async () => {
+		try {
+			const res = await axios.get(`/api/comments/${todo}`);
+			setComments(res.data);
+		} catch (err) {
+			alert("Error fetching comments");
+			console.log(err);
+		}
+	};
+
+	const handleAddComment = async () => {
+		let newComment = { user: name, comment, todo };
+		try {
+			const res = await axios.post("/api/comments", newComment);
+			fetchComments();
+		} catch (err) {
+			alert("Error adding a comment to the database");
+			console.log(err);
+		}
+	};
 	return (
 		<Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
 			<Stack padding={3}>
@@ -47,8 +80,24 @@ const CommentsModal = ({ open, handleClose, comments }) => {
 					})}
 				</Stack>
 				<Stack marginTop={2} spacing={3}>
-					<TextField label="Add a comment" fullWidth />
-					<Button variant="contained" color="primary" fullWidth>
+					<TextField
+						label="Name"
+						fullWidth
+						value={name}
+						onChange={(e) => setName(e.target.value)}
+					/>
+					<TextField
+						label="Add a comment"
+						fullWidth
+						value={comment}
+						onChange={(e) => setComment(e.target.value)}
+					/>
+					<Button
+						variant="contained"
+						color="primary"
+						fullWidth
+						onClick={handleAddComment}
+					>
 						Comment
 					</Button>
 				</Stack>
