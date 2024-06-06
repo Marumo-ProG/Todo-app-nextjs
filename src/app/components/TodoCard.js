@@ -11,6 +11,7 @@ import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
+import Stack from "@mui/material/Stack";
 
 // components
 import CommentsModal from "./CommentsModal";
@@ -19,7 +20,7 @@ import CommentsModal from "./CommentsModal";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 
-const TodoCard = ({ user, todo }) => {
+const TodoCard = ({ user, todo, comments, likes }) => {
 	const [openCommentsModal, setOpenCommentsModal] = useState(false);
 	return (
 		<>
@@ -37,9 +38,14 @@ const TodoCard = ({ user, todo }) => {
 					</Typography>
 				</CardContent>
 				<CardActions>
-					<IconButton size="small">
-						<FavoriteIcon sx={{ color: "red", fontSize: 15 }} />
-					</IconButton>
+					<Stack direction="row" spacing={1} alignItems={"center"}>
+						<IconButton size="small">
+							<FavoriteIcon sx={{ color: "red", fontSize: 15 }} />
+						</IconButton>
+						<Typography variant="body2" color="text.secondary">
+							{likes}
+						</Typography>
+					</Stack>
 					<IconButton
 						size="small"
 						onClick={() => setOpenCommentsModal(true)}
@@ -53,7 +59,7 @@ const TodoCard = ({ user, todo }) => {
 			<CommentsModal
 				open={openCommentsModal}
 				handleClose={() => setOpenCommentsModal(!openCommentsModal)}
-				comments={[{ user: "Lenny", comment: "This awesome" }]}
+				comments={comments}
 			/>
 		</>
 	);

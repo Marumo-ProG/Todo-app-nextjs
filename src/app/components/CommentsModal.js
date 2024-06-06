@@ -22,6 +22,11 @@ const CommentsModal = ({ open, handleClose, comments }) => {
 				</Stack>
 				<Divider />
 				<Stack spacing={2} marginTop={2}>
+					{comments.length === 0 && (
+						<Typography variant="body1">
+							No comments yet.
+						</Typography>
+					)}
 					{comments.map((comment, index) => {
 						return (
 							<Stack key={index} spacing={1}>

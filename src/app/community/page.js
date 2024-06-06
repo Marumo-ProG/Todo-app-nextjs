@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+import axios from "axios";
 
 // MUI
 import Stack from "@mui/material/Stack";
@@ -15,6 +17,20 @@ import Link from "next/link";
 
 const CommuninityPage = () => {
 	const [openAddTodoModal, setOpenAddTodoModal] = useState(false);
+	const [todos, setTodos] = useState([]);
+
+	useEffect(() => {
+		const fetchTodos = async () => {
+			try {
+				const res = await axios.get("/api/todos");
+				setTodos(res.data);
+			} catch (err) {
+				alert("Error fetching todos");
+			}
+		};
+
+		fetchTodos();
+	}, []);
 	return (
 		<>
 			<Stack height={"100vh"} spacing={3}>
@@ -75,23 +91,15 @@ const CommuninityPage = () => {
 						direction={"row"}
 						gap={3}
 					>
-						<TodoCard
-							user={"Alex"}
-							todo={"Playing PUBG with the killerKing"}
-						/>
-						<TodoCard
-							user={"Cammy"}
-							todo={"Re design the garage for the PJ party"}
-						/>
-						<TodoCard
-							user={"Sandy"}
-							todo={"Baby clothes with daddy"}
-						/>
-						<TodoCard
-							user={"Annonymous"}
-							todo={"Buy morning after pill"}
-						/>
-						<TodoCard user={"Lenny"} todo={"PR review with Emad"} />
+						{todos.map((todo, index) => (
+							<TodoCard
+								key={index}
+								user={todo.user_name}
+								todo={todo.todo}
+								comments={todo.comments}
+								likes={todo.likes}
+							/>
+						))}
 					</Stack>
 				</Stack>
 			</Stack>
