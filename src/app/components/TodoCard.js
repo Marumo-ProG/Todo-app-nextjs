@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 // MUI
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -8,34 +12,50 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 
+// components
+import CommentsModal from "./CommentsModal";
+
 // Icons
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 
 const TodoCard = ({ user, todo }) => {
+	const [openCommentsModal, setOpenCommentsModal] = useState(false);
 	return (
-		<Card sx={{ width: { xs: "100%", md: "400px" } }}>
-			<CardHeader title={user} subheader="Today" />
-			<CardMedia
-				component="img"
-				height="194"
-				image="https://source.unsplash.com/random"
-				alt="Random Image"
+		<>
+			<Card sx={{ width: { xs: "100%", md: "400px" } }}>
+				<CardHeader title={user} subheader="Today" />
+				<CardMedia
+					component="img"
+					height="194"
+					image="https://source.unsplash.com/random"
+					alt="Random Image"
+				/>
+				<CardContent>
+					<Typography variant="body2" color="text.secondary">
+						{todo}
+					</Typography>
+				</CardContent>
+				<CardActions>
+					<IconButton size="small">
+						<FavoriteIcon sx={{ color: "red", fontSize: 15 }} />
+					</IconButton>
+					<IconButton
+						size="small"
+						onClick={() => setOpenCommentsModal(true)}
+					>
+						<CommentRoundedIcon
+							sx={{ color: "black", fontSize: 15 }}
+						/>
+					</IconButton>
+				</CardActions>
+			</Card>
+			<CommentsModal
+				open={openCommentsModal}
+				handleClose={() => setOpenCommentsModal(!openCommentsModal)}
+				comments={[{ user: "Lenny", comment: "This awesome" }]}
 			/>
-			<CardContent>
-				<Typography variant="body2" color="text.secondary">
-					{todo}
-				</Typography>
-			</CardContent>
-			<CardActions>
-				<IconButton size="small">
-					<FavoriteIcon sx={{ color: "red", fontSize: 15 }} />
-				</IconButton>
-				<IconButton size="small">
-					<CommentRoundedIcon sx={{ color: "black", fontSize: 15 }} />
-				</IconButton>
-			</CardActions>
-		</Card>
+		</>
 	);
 };
 
