@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 // MUI
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -5,11 +9,12 @@ import Button from "@mui/material/Button";
 
 // components
 import TodoCard from "../components/TodoCard";
-import CommentsModal from "../components/CommentsModal";
+import AddTodoModal from "../components/AddTodoModal";
 
 import Link from "next/link";
 
 const CommuninityPage = () => {
+	const [openAddTodoModal, setOpenAddTodoModal] = useState(false);
 	return (
 		<>
 			<Stack height={"100vh"} spacing={3}>
@@ -57,7 +62,12 @@ const CommuninityPage = () => {
 						<Typography variant={"h4"}>
 							Community's Todo's
 						</Typography>
-						<Button variant={"contained"}>Add Todo</Button>
+						<Button
+							variant={"contained"}
+							onClick={() => setOpenAddTodoModal(true)}
+						>
+							Add Todo
+						</Button>
 					</Stack>
 					<Stack
 						padding={4}
@@ -85,6 +95,14 @@ const CommuninityPage = () => {
 					</Stack>
 				</Stack>
 			</Stack>
+			{/* make the modal to only render when it is supposed to */}
+
+			{openAddTodoModal && (
+				<AddTodoModal
+					open={openAddTodoModal}
+					handleClose={() => setOpenAddTodoModal(false)}
+				/>
+			)}
 		</>
 	);
 };
