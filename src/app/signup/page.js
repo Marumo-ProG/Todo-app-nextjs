@@ -43,17 +43,22 @@ const SignupPage = () => {
 					alignItems={"center"}
 					position={"relative"}
 				>
-					<Image
-						src={Background}
-						quality={100}
+					<div
 						style={{
+							position: "absolute",
 							height: "100%",
 							width: "100%",
-							objectFit: "cover",
-							opacity: 0.4,
-							position: "absolute",
 						}}
-					/>
+					>
+						<Image
+							src={"https://source.unsplash.com/random"}
+							alt="Random Image"
+							layout="fill"
+							objectFit="cover"
+							quality={100}
+							style={{ opacity: 0.4 }}
+						/>
+					</div>
 					<Typography
 						variant="h3"
 						sx={{
