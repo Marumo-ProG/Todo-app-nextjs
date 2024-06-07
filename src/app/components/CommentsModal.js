@@ -15,18 +15,18 @@ import TextField from "@mui/material/TextField";
 // Icons
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
-const CommentsModal = ({ open, handleClose, comments, todo }) => {
+const CommentsModal = ({ open, handleClose, todoId }) => {
 	const [comment, setComment] = useState("");
 	const [name, setName] = useState("");
-	const [comments, setComments] = useState(comments);
+	const [comments, setComments] = useState([]);
 
 	useEffect(() => {
 		fetchComments();
-	}, [comments]);
+	}, []);
 
 	const fetchComments = async () => {
 		try {
-			const res = await axios.get(`/api/comments/${todo}`);
+			const res = await axios.get(`/api/comments/?id=${todoId}`);
 			setComments(res.data);
 		} catch (err) {
 			alert("Error fetching comments");
@@ -35,14 +35,20 @@ const CommentsModal = ({ open, handleClose, comments, todo }) => {
 	};
 
 	const handleAddComment = async () => {
-		let newComment = { user: name, comment, todo };
+		let newComment = { user: name, comment, todo: todoId };
 		try {
 			const res = await axios.post("/api/comments", newComment);
+			clearFields();
 			fetchComments();
 		} catch (err) {
 			alert("Error adding a comment to the database");
 			console.log(err);
 		}
+	};
+
+	const clearFields = () => {
+		setName("");
+		setComment("");
 	};
 	return (
 		<Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">

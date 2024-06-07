@@ -20,7 +20,7 @@ import CommentsModal from "./CommentsModal";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 
-const TodoCard = ({ user, todo, comments, likes }) => {
+const TodoCard = ({ user, todo, comments, likes, id }) => {
 	const [openCommentsModal, setOpenCommentsModal] = useState(false);
 	return (
 		<>
@@ -56,11 +56,14 @@ const TodoCard = ({ user, todo, comments, likes }) => {
 					</IconButton>
 				</CardActions>
 			</Card>
-			<CommentsModal
-				open={openCommentsModal}
-				handleClose={() => setOpenCommentsModal(!openCommentsModal)}
-				comments={comments}
-			/>
+			{openCommentsModal && (
+				<CommentsModal
+					open={openCommentsModal}
+					handleClose={() => setOpenCommentsModal(!openCommentsModal)}
+					comments={comments}
+					todoId={id}
+				/>
+			)}
 		</>
 	);
 };

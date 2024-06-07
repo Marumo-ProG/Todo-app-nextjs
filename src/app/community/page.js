@@ -99,6 +99,7 @@ const CommuninityPage = () => {
 								todo={todo.todo}
 								comments={todo.comments}
 								likes={todo.likes}
+								id={todo.$id}
 							/>
 						))}
 					</Stack>
