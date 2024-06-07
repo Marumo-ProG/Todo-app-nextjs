@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from "react";
 
+// context
+import { useAuth } from "../context/auth";
+
 import axios from "axios";
 
 // MUI
@@ -16,6 +19,7 @@ import AddTodoModal from "../components/AddTodoModal";
 import Link from "next/link";
 
 const CommuninityPage = () => {
+	const { user } = useAuth();
 	const [openAddTodoModal, setOpenAddTodoModal] = useState(false);
 	const [todos, setTodos] = useState([]);
 
@@ -53,21 +57,37 @@ const CommuninityPage = () => {
 							Back
 						</Link>
 					</Button>
-
-					<Button
-						variant={"outlined"}
-						sx={{ position: "absolute", right: 24 }}
-					>
-						<Link
-							href={"/login"}
-							style={{
-								textDecoration: "none",
-								color: "inherit",
-							}}
+					{user.isAuthenticated ? (
+						<Button
+							variant={"outlined"}
+							sx={{ position: "absolute", right: 24 }}
 						>
-							login
-						</Link>
-					</Button>
+							<Link
+								href={"/logout"}
+								style={{
+									textDecoration: "none",
+									color: "inherit",
+								}}
+							>
+								logout
+							</Link>
+						</Button>
+					) : (
+						<Button
+							variant={"outlined"}
+							sx={{ position: "absolute", right: 24 }}
+						>
+							<Link
+								href={"/login"}
+								style={{
+									textDecoration: "none",
+									color: "inherit",
+								}}
+							>
+								login
+							</Link>
+						</Button>
+					)}
 				</Stack>
 
 				<Stack spacing={3} padding={3}>
@@ -76,9 +96,14 @@ const CommuninityPage = () => {
 						spacing={3}
 						justifyContent={"space-between"}
 					>
-						<Typography variant={"h4"}>
-							Community's Todo's
-						</Typography>
+						{user.isAuthenticated ? (
+							<Typography variant={"h4"}>My Todo's</Typography>
+						) : (
+							<Typography variant={"h4"}>
+								Community's Todo's
+							</Typography>
+						)}
+
 						<Button
 							variant={"contained"}
 							onClick={() => setOpenAddTodoModal(true)}
