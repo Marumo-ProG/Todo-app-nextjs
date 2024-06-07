@@ -1,5 +1,9 @@
 "use client";
 
+import { useState } from "react";
+
+import axios from "axios";
+
 // MUI
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
@@ -11,6 +15,25 @@ import CardMedia from "@mui/material/CardMedia";
 import Link from "next/link";
 
 const SignupPage = () => {
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [confirmPassword, setConfirmPassword] = useState("");
+
+	const handleUserSignup = async () => {
+		if (password !== confirmPassword) {
+			alert("Passwords do not match");
+			return;
+		}
+		try {
+			const response = await axios.post("/api/signup", {
+				email,
+				password,
+			});
+			console.log(response.data);
+		} catch (error) {
+			console.error("Error signing up user:", error);
+		}
+	};
 	return (
 		<Stack height={"100vh"} justifyContent={"center"} alignItems={"center"}>
 			<Stack sx={{ position: "absolute", top: 0, left: 0, padding: 3 }}>
@@ -80,6 +103,8 @@ const SignupPage = () => {
 						variant="outlined"
 						color="primary"
 						size="small"
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
 					/>
 					<TextField
 						label="Password"
@@ -87,6 +112,8 @@ const SignupPage = () => {
 						color="primary"
 						size="small"
 						type="password"
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
 					/>
 					<TextField
 						label="Confirm Password"
@@ -94,8 +121,14 @@ const SignupPage = () => {
 						color="primary"
 						size="small"
 						type="password"
+						value={confirmPassword}
+						onChange={(e) => setConfirmPassword(e.target.value)}
 					/>
-					<Button variant="contained" color="primary">
+					<Button
+						variant="contained"
+						color="primary"
+						onClick={handleUserSignup}
+					>
 						Signup
 					</Button>
 
