@@ -1,8 +1,13 @@
 "use client";
 
+// Auth
+import { useAuth } from "../context/auth";
+
 import { useState } from "react";
 
 import axios from "axios";
+
+import { useRouter } from "next/navigation";
 
 // MUI
 import Stack from "@mui/material/Stack";
@@ -15,6 +20,8 @@ import CardMedia from "@mui/material/CardMedia";
 import Link from "next/link";
 
 const SignupPage = () => {
+	const router = useRouter();
+	const { setUser } = useAuth();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
@@ -25,11 +32,12 @@ const SignupPage = () => {
 			return;
 		}
 		try {
-			const response = await axios.post("/api/signup", {
+			await axios.post("/api/signup", {
 				email,
 				password,
 			});
-			console.log(response.data);
+			setUser({ user: email, isAuthenticated: true });
+			router.push("/community");
 		} catch (error) {
 			console.error("Error signing up user:", error);
 		}

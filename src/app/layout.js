@@ -1,5 +1,8 @@
 import "./global.css";
 
+// context
+import { AuthProvider } from "./context/auth";
+
 export const metadata = {
 	title: "Lenny's todo | home",
 	description: "Developed by Lenny Thobejane",
@@ -8,7 +11,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
-			<body>{children}</body>
+			<body>
+				<AuthProvider>{children}</AuthProvider>
+			</body>
 		</html>
 	);
 }
