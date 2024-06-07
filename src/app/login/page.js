@@ -1,5 +1,12 @@
 "use client";
 
+import axios from "axios";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+// context
+import { useAuth } from "../context/auth";
+
 // MUI
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
@@ -11,6 +18,23 @@ import Divider from "@mui/material/Divider";
 import Link from "next/link";
 
 const LoginPage = () => {
+	const router = useRouter();
+	const { setUser } = useAuth();
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+
+	const handleLogin = async () => {
+		try {
+			await axios.post("/api/login", {
+				email,
+				password,
+			});
+			setUser({ user: email, isAuthenticated: true });
+			router.push("/community");
+		} catch (error) {
+			console.error("Error signing up user:", error);
+		}
+	};
 	return (
 		<Stack height={"100vh"} justifyContent={"center"} alignItems={"center"}>
 			<Stack sx={{ position: "absolute", top: 0, left: 0, padding: 3 }}>
@@ -80,6 +104,8 @@ const LoginPage = () => {
 						variant="outlined"
 						color="primary"
 						size="small"
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
 					/>
 					<TextField
 						label="Password"
@@ -87,8 +113,14 @@ const LoginPage = () => {
 						color="primary"
 						size="small"
 						type="password"
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
 					/>
-					<Button variant="contained" color="primary">
+					<Button
+						variant="contained"
+						color="primary"
+						onClick={handleLogin}
+					>
 						Login
 					</Button>
 
