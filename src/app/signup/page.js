@@ -32,11 +32,15 @@ const SignupPage = () => {
 			return;
 		}
 		try {
-			await axios.post("/api/signup", {
+			const result = await axios.post("/api/signup", {
 				email,
 				password,
 			});
-			setUser({ user: email, isAuthenticated: true });
+			setUser({
+				user: email,
+				isAuthenticated: true,
+				token: result.data.token,
+			});
 			router.push("/community");
 		} catch (error) {
 			console.error("Error signing up user:", error);

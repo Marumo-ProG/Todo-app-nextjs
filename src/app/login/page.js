@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 // context
@@ -19,17 +19,27 @@ import Link from "next/link";
 
 const LoginPage = () => {
 	const router = useRouter();
-	const { setUser } = useAuth();
+	const { setUser, user } = useAuth();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
+	useEffect(() => {
+		if (user) {
+			router.push("/community");
+		}
+	}, []);
+
 	const handleLogin = async () => {
 		try {
-			await axios.post("/api/login", {
+			const result = await axios.post("/api/login", {
 				email,
 				password,
 			});
-			setUser({ user: email, isAuthenticated: true });
+			setUser({
+				user: email,
+				isAuthenticated: true,
+				token: result.data.token,
+			});
 			router.push("/community");
 		} catch (error) {
 			console.error("Error signing up user:", error);

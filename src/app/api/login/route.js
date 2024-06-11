@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { account } from "../../../lib/appwrite";
-import { ID } from "appwrite";
+const jwt = require("jsonwebtoken");
 
 export async function POST(req) {
 	try {
@@ -9,6 +9,8 @@ export async function POST(req) {
 			user.email,
 			user.password
 		);
+		const token = jwt.sign({ id: createdUser.$id }, process.env.JWT_SECRET);
+		createdUser.token = token;
 		return NextResponse.json(createdUser, { status: 200 });
 	} catch (error) {
 		console.error("Error creating user:", error.message);
