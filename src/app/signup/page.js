@@ -56,6 +56,11 @@ const SignupPage = () => {
 			console.error("Error signing up user:", error);
 		}
 	};
+	const handleClose = () => {
+		setOpenAlertMessage(false);
+
+		setMessage("");
+	};
 	return (
 		<>
 			<Stack
