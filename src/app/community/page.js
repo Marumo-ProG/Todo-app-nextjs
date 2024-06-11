@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 // context
 import { useAuth } from "../context/auth";
@@ -19,7 +20,8 @@ import AddTodoModal from "../components/AddTodoModal";
 import Link from "next/link";
 
 const CommuninityPage = () => {
-	const { user } = useAuth();
+	const router = useRouter();
+	const { user, setUser } = useAuth();
 	const [openAddTodoModal, setOpenAddTodoModal] = useState(false);
 	const [todos, setTodos] = useState([]);
 
@@ -35,6 +37,12 @@ const CommuninityPage = () => {
 			alert("Error fetching todos");
 			console.log(err);
 		}
+	};
+
+	const handleLogout = () => {
+		localStorage.removeItem("todo_user");
+		setUser(null);
+		router.push("/");
 	};
 	return (
 		<>
@@ -57,20 +65,13 @@ const CommuninityPage = () => {
 							Back
 						</Link>
 					</Button>
-					{user.isAuthenticated ? (
+					{user ? (
 						<Button
 							variant={"outlined"}
 							sx={{ position: "absolute", right: 24 }}
+							onClick={handleLogout}
 						>
-							<Link
-								href={"/logout"}
-								style={{
-									textDecoration: "none",
-									color: "inherit",
-								}}
-							>
-								logout
-							</Link>
+							logout
 						</Button>
 					) : (
 						<Button
@@ -96,7 +97,7 @@ const CommuninityPage = () => {
 						spacing={3}
 						justifyContent={"space-between"}
 					>
-						{user.isAuthenticated ? (
+						{user ? (
 							<Typography variant={"h4"}>My Todo's</Typography>
 						) : (
 							<Typography variant={"h4"}>
