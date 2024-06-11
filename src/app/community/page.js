@@ -16,6 +16,7 @@ import Button from "@mui/material/Button";
 // components
 import TodoCard from "../components/TodoCard";
 import AddTodoModal from "../components/AddTodoModal";
+import Loader from "../components/Loader";
 
 import Link from "next/link";
 
@@ -24,12 +25,14 @@ const CommuninityPage = () => {
 	const { user, setUser } = useAuth();
 	const [openAddTodoModal, setOpenAddTodoModal] = useState(false);
 	const [todos, setTodos] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		fetchTodos();
 	}, []);
 
 	const fetchTodos = async () => {
+		setIsLoading(true);
 		try {
 			const res = await axios.get("/api/todos");
 			setTodos(res.data);
@@ -37,6 +40,7 @@ const CommuninityPage = () => {
 			alert("Error fetching todos");
 			console.log(err);
 		}
+		setIsLoading(false);
 	};
 
 	const handleLogout = () => {
@@ -118,16 +122,20 @@ const CommuninityPage = () => {
 						direction={"row"}
 						gap={3}
 					>
-						{todos.map((todo, index) => (
-							<TodoCard
-								key={index}
-								user={todo.user_name}
-								todo={todo.todo}
-								comments={todo.comments}
-								likes={todo.likes}
-								id={todo.$id}
-							/>
-						))}
+						{isLoading ? (
+							<Loader />
+						) : (
+							todos.map((todo, index) => (
+								<TodoCard
+									key={index}
+									user={todo.user_name}
+									todo={todo.todo}
+									comments={todo.comments}
+									likes={todo.likes}
+									id={todo.$id}
+								/>
+							))
+						)}
 					</Stack>
 				</Stack>
 			</Stack>
