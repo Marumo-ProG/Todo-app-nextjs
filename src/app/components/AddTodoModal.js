@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import { useForm, Controller } from "react-hook-form";
+
 import axios from "axios";
 
 // MUI
@@ -18,6 +20,7 @@ import CardMedia from "@mui/material/CardMedia";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const AddTodoModal = ({ open, handleClose, fetchTodos }) => {
+	const { control, handleSubmit } = useForm();
 	const [name, setName] = useState("");
 	const [todo, setTodo] = useState("");
 
@@ -42,38 +45,49 @@ const AddTodoModal = ({ open, handleClose, fetchTodos }) => {
 					</IconButton>
 				</Stack>
 				<Divider />
-				<Stack spacing={2} marginTop={2}>
-					<TextField
-						size="small"
-						label="Name"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-						fullWidth
-					/>
-					<TextField
-						size="small"
-						label="Todo"
-						value={todo}
-						onChange={(e) => setTodo(e.target.value)}
-						fullWidth
-					/>
-					<CardMedia
-						component="img"
-						height="194"
-						image="https://source.unsplash.com/random"
-						alt="Random Image"
-					/>
-				</Stack>
-				<Stack marginTop={2} spacing={3}>
-					<Button
-						variant="contained"
-						color="primary"
-						fullWidth
-						onClick={handleAddTodo}
-					>
-						Add
-					</Button>
-				</Stack>
+				<form onSubmit={handleSubmit(handleAddTodo)}>
+					<Stack spacing={2} marginTop={2}>
+						<Controller
+							name="name"
+							control={control}
+							defaultValue=""
+							render={({ field, fieldState: { error } }) => (
+								<TextField
+									{...field}
+									error={error}
+									helperText={error ? error.message : null}
+									size="small"
+									label="Name"
+									fullWidth
+								/>
+							)}
+						/>
+
+						<TextField
+							size="small"
+							label="Todo"
+							value={todo}
+							onChange={(e) => setTodo(e.target.value)}
+							fullWidth
+						/>
+						<CardMedia
+							component="img"
+							height="194"
+							image="https://source.unsplash.com/random"
+							alt="Random Image"
+						/>
+					</Stack>
+					<Stack marginTop={2} spacing={3}>
+						<Button
+							variant="contained"
+							color="primary"
+							fullWidth
+							onClick={handleAddTodo}
+						>
+							Add
+						</Button>
+					</Stack>
+				</form>
 			</Stack>
 		</Dialog>
 	);
